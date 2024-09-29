@@ -72,6 +72,7 @@ molecules = {
 UPLOAD_DIR = "./uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+
 # 1. Add molecule (smiles) and its identifier
 @app.post("/add")
 def add_molecule(molecule: Molecule):
@@ -83,6 +84,7 @@ def add_molecule(molecule: Molecule):
     }
     return {"message": "Molecule added successfully."}
 
+
 # 2. Get molecule by identifier
 @app.get("/molecule/{molecule_id}")
 def get_molecule_by_id(molecule_id: int):
@@ -90,6 +92,7 @@ def get_molecule_by_id(molecule_id: int):
         return molecules[molecule_id]
     else:
         raise HTTPException(status_code=404, detail='Molecule not found.')
+
 
 # 3. Updating a molecule by identifier
 @app.put("/update/molecule/{molecule_id}")
@@ -105,6 +108,7 @@ def update_molecule(molecule_id: int, molecule: MoleculeUpdate):
     else:
         raise HTTPException(status_code=404, detail="Molecule not found.")
 
+
 # 4. Delete a molecule by identifier
 @app.delete("/delete/molecule/{molecule_id}")
 def delete_molecule(molecule_id: int):
@@ -114,10 +118,12 @@ def delete_molecule(molecule_id: int):
     else:
         raise HTTPException(status_code=404, detail="Molecule not found.")
 
+
 # 5. List all molecules
 @app.get("/list")
 def list_molecules():
     return {"molecules": molecules}
+
 
 # 6. Substructure search for all added molecules
 @app.get("/search")
@@ -156,6 +162,7 @@ def substructure_search(substructure: str):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {e}")
+
 
 # 7. [Optional] Upload file with molecules (the choice of format is yours).
 @app.post("/upload_image")
