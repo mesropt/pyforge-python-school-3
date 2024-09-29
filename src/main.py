@@ -67,12 +67,6 @@ molecules = {
         "weight": 58.44247,
         "formula": "ClNa"
     },
-    10: {
-        "name": "Sodium chloride",
-        "smiles": "[Na+].[Cl-]",
-        "weight": '58.44247',
-        "formula": "ClNa"
-    }
 }
 
 UPLOAD_DIR = "./uploads"
