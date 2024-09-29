@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  run-test-2:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,10 +23,12 @@ jobs:
 
     - name: Install dependencies
       run: |
+        source ~/miniconda/etc/profile.d/conda.sh
         conda activate my-rdkit-env
-        pip install -r requirements.txt
 
     - name: Run tests
       run: |
+        source ~/miniconda/etc/profile.d/conda.sh
         conda activate my-rdkit-env
         pytest tests/
+
