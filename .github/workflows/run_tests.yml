@@ -18,7 +18,7 @@ jobs:
           auto-update-conda: true
           python-version: 3.12
           channels: conda-forge
-          use-only-tar-bz2: true
+          use-only-tar-bz2: false
 
       - name: Create environment and install dependencies
         run: |
