@@ -21,11 +21,18 @@ jobs:
         auto-update-conda: true
         environment-file: environment.yml
 
+    - name: Initialize conda
+      shell: bash -l {0}
+      run: |
+        conda init bash
+        source ~/.bashrc
+
     - name: Install dependencies
       run: |
-        conda run -n my-rdkit-env conda list
         conda activate my-rdkit-env
+        conda list
 
     - name: Run tests
       run: |
-        conda run -n my-rdkit-env pytest tests/
+        conda activate my-rdkit-env
+        pytest tests/
