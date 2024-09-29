@@ -168,20 +168,27 @@ def substructure_search(substructure: str):
 @app.post("/upload_image")
 def upload_image(file: UploadFile = File(...)):
     if file.content_type not in ["image/png", "image/jpeg", "image/jpg"]:
-        raise HTTPException(status_code=400, detail="Invalid file type. Use png or jpeg.")
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid file type. Use png or jpeg."
+        )
 
     try:
-            file_location = os.path.join(UPLOAD_DIR, file.filename)
+        file_location = os.path.join(UPLOAD_DIR, file.filename)
 
-            with open(file_location, "wb") as f:
-                f.write(file.file.read())
+        with open(file_location, "wb") as f:
+            f.write(file.file.read())
 
-            return {"message": "Image uploaded successfully.", "file_path": file_location}
+        return {
+            "message": "Image uploaded successfully.",
+            "file_path": file_location
+        }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Error: {str(e)}')
 
 # Start the server using: uvicorn main:app --reload --port 8010
+
 
 @app.get("/")
 def get_server():

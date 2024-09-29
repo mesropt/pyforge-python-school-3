@@ -3,6 +3,7 @@ from src.main import app
 
 client = TestClient(app)
 
+
 def test_add_molecule():
     molecule_data = {
         "id": 77771,
@@ -15,12 +16,14 @@ def test_add_molecule():
     assert response.status_code == 200
     assert response.json() == {"message": "Molecule added successfully."}
 
+
 def test_get_molecule_by_id():
     response = client.get("/molecule/77771")
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Test Molecule 77771"
     assert data["smiles"] == "CKDOD"
+
 
 def test_update_molecule_by_id():
     molecule_data_updated = {
@@ -38,6 +41,7 @@ def test_update_molecule_by_id():
     data = response.json()
     assert data["name"] == "Test Molecule 77771 Updated"
     assert data["weight"] == 49.201
+
 
 def test_delete_molecule_by_id():
     molecule_data = {
@@ -59,6 +63,7 @@ def test_delete_molecule_by_id():
     assert response.status_code == 404
     assert response.json() == {"detail": "Molecule not found."}
 
+
 def test_list_molecules():
     response = client.get("/list")
     assert response.status_code == 200
@@ -66,6 +71,7 @@ def test_list_molecules():
     data = response.json()
     assert "molecules" in data
     assert len(data["molecules"]) > 0
+
 
 def test_substructure_search():
     response = client.get("/search?substructure=c1ccccc1")
@@ -75,6 +81,7 @@ def test_substructure_search():
     assert len(data) > 0
     assert data[0]["name"] == "Benzene"
 
+
 def test_upload_image():
     with open("tests/test_image.png", "rb") as image_file:
         response = client.post("/upload_image", files={"file": image_file})
@@ -82,6 +89,7 @@ def test_upload_image():
         data = response.json()
         assert "file_path" in data
         assert data["message"] == "Image uploaded successfully."
+
 
 def test_get_server():
     response = client.get("/")
