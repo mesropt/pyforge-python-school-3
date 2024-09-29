@@ -11,18 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v4
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
         with:
+          activate-environment: my-rdkit-env
+          auto-update-conda: true
           python-version: 3.12
+          channels: conda-forge
+          use-only-tar-bz2: true
 
-      - name: Upgrade pip, setuptools, and wheel
+      - name: Create environment and install dependencies
         run: |
-          python -m pip install --upgrade pip setuptools wheel
+          conda create -n my-rdkit-env python=3.12 rdkit=2024.03.4 -c conda-forge -y
+          conda install -n my-rdkit-env fastapi uvicorn pytest flake8 -c conda-forge
 
-      - name: Install dependencies (force reinstall and no cache)
-        run: |
-          python -m pip install --no-cache-dir --force-reinstall -r requirements.txt
+      - name: Activate environment
+        run: source activate my-rdkit-env
 
       - name: Run tests
         run: |
