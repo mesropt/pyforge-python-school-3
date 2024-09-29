@@ -6,31 +6,27 @@ on:
       - main
 
 jobs:
-  run-tests:
+  run-test-2:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+    - name: Check out the code
+      uses: actions/checkout@v3
 
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          auto-update-conda: true
-          python-version: 3.12
-          channels: conda-forge
-          use-only-tar-bz2: false
+    - name: Set up Miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: 3.12
+        activate-environment: my-rdkit-env
+        auto-update-conda: true
+        environment-file: environment.yml
 
-      - name: Create environment and install dependencies
-        run: |
-          conda create -n my-rdkit-env python=3.12 rdkit=2024.03.4 -c conda-forge -y
-          conda install -n my-rdkit-env fastapi uvicorn pytest flake8 -c conda-forge
+    - name: Install dependencies
+      run: |
+        conda activate my-rdkit-env
+        pip install -r requirements.txt
 
-      - name: Add src to PYTHONPATH
-        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/src" >> $GITHUB_ENV
-
-      - name: Run tests using conda run
-        run: |
-          conda run -n my-rdkit-env pytest
-
-      - name: Run flake8 for static analysis using conda run
-        run: |
-          conda run -n my-rdkit-env flake8 src tests
+    - name: Run tests
+      run: |
+        conda activate my-rdkit-env
+        pytest tests/
