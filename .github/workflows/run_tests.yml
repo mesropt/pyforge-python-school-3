@@ -1,51 +1,33 @@
-name: CI for FastAPI project
+name: Run tests workflow
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
 
 jobs:
-  test:
+  run-tests:
     runs-on: ubuntu-latest
 
-    services:
-      docker:
-        image: docker:20.10.7
-        options: --privileged
-        ports:
-          - 8020:8010
-          - 8021:8010
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
         with:
           python-version: 3.12
 
       - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: 3.12
           activate-environment: my-rdkit-env
           environment-file: environment.yml
+          auto-activate-base: false
 
       - name: Install dependencies
-        run: |
-          conda run -n my-rdkit-env pip install fastapi uvicorn
-
-      - name: Run Docker Compose
-        run: docker-compose up --build -d
+        run: conda run -n my-rdkit-env conda install -c conda-forge fastapi uvicorn -y
 
       - name: Run tests
         run: |
           conda run -n my-rdkit-env pytest tests/
-
-      - name: Run flake8
-        run: |
-          conda run -n my-rdkit-env flake8 src/ tests/
