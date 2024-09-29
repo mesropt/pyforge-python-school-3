@@ -24,6 +24,9 @@ jobs:
           conda create -n my-rdkit-env python=3.12 rdkit=2024.03.4 -c conda-forge -y
           conda install -n my-rdkit-env fastapi uvicorn pytest flake8 -c conda-forge
 
+      - name: Add src to PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/src" >> $GITHUB_ENV
+
       - name: Run tests using conda run
         run: |
           conda run -n my-rdkit-env pytest
