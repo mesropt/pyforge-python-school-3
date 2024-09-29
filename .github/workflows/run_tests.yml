@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3 # клонируем код репозитория
 
-      - name: Set up Python 3.12
+      - name: Set up Python 3.12 # гарантирует, что на всех степах используем только Python 3.12 + может потребоваться предустановка для некоторых шагов
         uses: actions/setup-python@v4
         with:
           python-version: 3.12
@@ -21,16 +21,15 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: 3.12
-          activate-environment: my-rdkit-env
+          activate-environment: my-rdkit-env # активировать my-rdkit-env
           environment-file: environment.yml
-          auto-activate-base: false
+          auto-activate-base: false # не активировать (base) по умолчанию
 
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: conda run -n my-rdkit-env conda install -c conda-forge fastapi uvicorn -y
+        run: conda run -n my-rdkit-env conda install -c conda-forge fastapi uvicorn -y # Install FastAPI and Uvicorn into my-rdkit-env
 
       - name: Run tests
-        run: |
-          conda run -n my-rdkit-env pytest tests/
+        run: conda run -n my-rdkit-env pytest tests/
