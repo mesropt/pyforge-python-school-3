@@ -23,12 +23,9 @@ jobs:
 
     - name: Install dependencies
       run: |
-        source ~/miniconda/etc/profile.d/conda.sh
+        conda run -n my-rdkit-env conda list
         conda activate my-rdkit-env
 
     - name: Run tests
       run: |
-        source ~/miniconda/etc/profile.d/conda.sh
-        conda activate my-rdkit-env
-        pytest tests/
-
+        conda run -n my-rdkit-env pytest tests/
