@@ -33,3 +33,6 @@ jobs:
 
       - name: Run tests
         run: conda run -n my-rdkit-env pytest tests/
+
+      - name: Run flake8
+        run: conda run -n my-rdkit-env flake8 src/ tests/
