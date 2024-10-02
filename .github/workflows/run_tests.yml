@@ -9,6 +9,21 @@ jobs:
   run-tests:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: chemuser
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: chemdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - uses: actions/checkout@v3
 
@@ -28,11 +43,15 @@ jobs:
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
 
-      - name: Load .env file
-        run: echo "DATABASE_URL=postgresql://chemuser:password@localhost/chemdb" >> $GITHUB_ENV
+      - name: Wait for PostgreSQL
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          until pg_isready -h localhost -p 5432; do
+            sleep 1
+          done
 
       - name: Install dependencies
-        run: conda run -n my-rdkit-env conda install -c conda-forge fastapi uvicorn flake8 -y
+        run: conda run -n my-rdkit-env conda install -c conda-forge fastapi uvicorn flake8 psycopg2 -y
 
       - name: Run tests
         run: conda run -n my-rdkit-env pytest tests/
