@@ -95,7 +95,7 @@ def substructure_search(substructure: str, db: Session = Depends(get_db)):
                 rdkit_molecule = Chem.MolFromSmiles(smile)
 
                 if (rdkit_molecule and
-                    rdkit_molecule.HasSubstructMatch(desired_substructure)):
+                        rdkit_molecule.HasSubstructMatch(desired_substructure)):
                     result.append({
                         "id": molecule.id,
                         "smiles": smile,
