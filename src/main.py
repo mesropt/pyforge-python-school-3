@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from rdkit import Chem
 
 from src import crud, models, schemas
-from src.database import SessionLocal, engine, get_db
+from src.database import engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -94,7 +94,9 @@ def substructure_search(substructure: str, db: Session = Depends(get_db)):
                 smile = molecule.smiles
                 rdkit_molecule = Chem.MolFromSmiles(smile)
 
-                if rdkit_molecule and rdkit_molecule.HasSubstructMatch(desired_substructure):
+                if (rdkit_molecule and rdkit_molecule.
+                        HasSubstructMatch(desired_substructure)
+                ):
                     result.append({
                         "id": molecule.id,
                         "smiles": smile,

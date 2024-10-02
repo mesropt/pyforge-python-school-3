@@ -31,7 +31,7 @@ class MoleculeInDB(MoleculeBase):
     id: int
 
     class ConfigDict:
-        from_attributes = True # former orm_mode
+        from_attributes = True
 
 
 class MoleculeResponse(BaseModel):

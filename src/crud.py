@@ -22,7 +22,11 @@ def get_all_molecules(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Molecule).offset(skip).limit(limit).all()
 
 
-def update_molecule(db: Session, molecule_id: int, molecule_data: schemas.MoleculeUpdate):
+def update_molecule(
+        db: Session,
+        molecule_id: int,
+        molecule_data: schemas.MoleculeUpdate,
+):
     db_molecule = get_molecule_by_id(db, molecule_id)
     if db_molecule:
         for key, value in molecule_data.dict().items():
