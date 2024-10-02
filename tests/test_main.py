@@ -30,20 +30,25 @@ def mock_get_all_molecules():
         yield mock_get
 
 
-# @pytest.fixture
-# def mock_update_molecule():
-#     with patch('src.crud.update_molecule') as mock_update:
-#         yield mock_update
-#
-#
-# @pytest.fixture
-# def mock_delete_molecule():
-#     with patch('src.crud.delete_molecule') as mock_delete:
-#         yield mock_delete
+@pytest.fixture
+def mock_update_molecule():
+    with patch('src.crud.update_molecule') as mock_update:
+        yield mock_update
+
+
+@pytest.fixture
+def mock_delete_molecule():
+    with patch('src.crud.delete_molecule') as mock_delete:
+        yield mock_delete
 
 
 def test_add_molecule(mock_add_molecule, mock_get_molecule_by_name):
-    molecule_data = {"name": "Ethanol", "smiles": "CCO", "weight": 46.07, "formula": "C2H6O"}
+    molecule_data = {
+        "name": "Ethanol",
+        "smiles": "CCO",
+        "weight": 46.07,
+        "formula": "C2H6O",
+    }
     mock_get_molecule_by_name.return_value = None
     mock_add_molecule.return_value = {**molecule_data, "id": 1}
 
@@ -55,7 +60,13 @@ def test_add_molecule(mock_add_molecule, mock_get_molecule_by_name):
 
 
 def test_get_molecule_by_id(mock_get_molecule_by_id):
-    molecule_data = {"id": 1, "name": "Ethanol", "smiles": "CCO", "weight": 46.07, "formula": "C2H6O"}
+    molecule_data = {
+        "id": 1,
+        "name": "Ethanol",
+        "smiles": "CCO",
+        "weight": 46.07,
+        "formula": "C2H6O",
+    }
     mock_get_molecule_by_id.return_value = molecule_data
 
     response = client.get("/molecule/1")
@@ -66,9 +77,27 @@ def test_get_molecule_by_id(mock_get_molecule_by_id):
 
 def test_get_all_molecules(mock_get_all_molecules):
     molecule_data = [
-        {"id": 1, "name": "Ethanol", "smiles": "CCO", "weight": 46.07, "formula": "C2H6O"},
-        {"id": 2, "name": "Methanol", "smiles": "CO", "weight": 32.04, "formula": "CH4O"},
-        {"id": 3, "name": "Water", "smiles": "O", "weight": 18.02, "formula": "H2O"}
+        {
+            "id": 1,
+            "name": "Ethanol",
+            "smiles": "CCO",
+            "weight": 46.07,
+            "formula": "C2H6O",
+        },
+        {
+            "id": 2,
+            "name": "Methanol",
+            "smiles": "CO",
+            "weight": 32.04,
+            "formula": "CH4O",
+        },
+        {
+            "id": 3,
+            "name": "Water",
+            "smiles": "O",
+            "weight": 18.02,
+            "formula": "H2O",
+        }
     ]
     mock_get_all_molecules.return_value = molecule_data
 
