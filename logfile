@@ -14,3 +14,12 @@
 2024-09-30 17:28:13.176 +04 [147190] FATAL:  role "postgres" does not exist
 2024-10-02 04:55:22.713 +04 [118845] LOG:  stats_timestamp 2024-10-02 04:55:22.91379+04 is later than collector's time 2024-10-02 04:55:22.713103+04 for database 12673
 2024-10-02 08:56:55.702 +04 [118845] LOG:  stats_timestamp 2024-10-02 08:56:55.735755+04 is later than collector's time 2024-10-02 08:56:55.702488+04 for database 0
+2024-10-02 17:02:09.389 +04 [7295] LOG:  starting PostgreSQL 12.17 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2024-10-02 17:02:09.389 +04 [7295] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2024-10-02 17:02:09.394 +04 [7295] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-10-02 17:02:09.412 +04 [7296] LOG:  database system was interrupted; last known up at 2024-10-02 15:13:56 +04
+2024-10-02 17:02:09.942 +04 [7296] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-10-02 17:02:09.947 +04 [7296] LOG:  redo starts at 0/162B428
+2024-10-02 17:02:09.947 +04 [7296] LOG:  invalid record length at 0/162B510: wanted 24, got 0
+2024-10-02 17:02:09.947 +04 [7296] LOG:  redo done at 0/162B4D8
+2024-10-02 17:02:09.961 +04 [7295] LOG:  database system is ready to accept connections

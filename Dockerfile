@@ -24,6 +24,9 @@ SHELL ["conda", "run", "-n", "my-rdkit-env", "/bin/bash", "-c"]
 # Install FastAPI and Uvicorn into my-rdkit-env
 RUN conda install -c conda-forge fastapi uvicorn -y
 
+(Optional) Install PostgreSQL client for connecting to the database from inside the container
+RUN apt-get update && apt-get install -y postgresql-client
+
 # Open the port for our app
 # (Не обязательно, больше для явности, так как маппинг происходит в docker-compose.yaml)
 EXPOSE 8010
