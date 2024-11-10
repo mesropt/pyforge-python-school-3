@@ -1,6 +1,20 @@
-version: '3.9'
-
 services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: chemdb
+      POSTGRES_USER: chemuser
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "chemuser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   web1:
     build: .
     volumes:
@@ -12,6 +26,8 @@ services:
       SERVER_ID: "SERVER-1"
     ports:
       - "8020:8010" # host machine port:container port
+    depends_on:
+      - postgres
 
   web2:
     build: .
@@ -21,6 +37,8 @@ services:
       SERVER_ID: "SERVER-2"
     ports:
       - "8021:8010" # host machine port:container port
+    depends_on:
+      - postgres
 
   nginx:
     image: nginx:latest
@@ -31,3 +49,7 @@ services:
     depends_on:
       - web1
       - web2
+
+
+volumes:
+  pg-data:

@@ -23,3 +23,13 @@
 2024-10-02 17:02:09.947 +04 [7296] LOG:  invalid record length at 0/162B510: wanted 24, got 0
 2024-10-02 17:02:09.947 +04 [7296] LOG:  redo done at 0/162B4D8
 2024-10-02 17:02:09.961 +04 [7295] LOG:  database system is ready to accept connections
+2024-10-03 00:24:07.002 +04 [7303] LOG:  stats_timestamp 2024-10-03 00:24:07.212772+04 is later than collector's time 2024-10-03 00:24:07.002093+04 for database 16384
+2024-10-03 06:26:23.663 +04 [7303] LOG:  stats_timestamp 2024-10-03 06:26:23.88737+04 is later than collector's time 2024-10-03 06:26:23.663301+04 for database 16384
+2024-10-04 16:29:26.111 +04 [7303] LOG:  stats_timestamp 2024-10-04 16:29:26.195082+04 is later than collector's time 2024-10-04 16:29:26.111642+04 for database 16384
+2024-10-07 06:37:41.217 +04 [7303] LOG:  stats_timestamp 2024-10-07 06:37:41.233445+04 is later than collector's time 2024-10-07 06:37:41.217297+04 for database 16384
+2024-11-10 13:07:00.302 +04 [234417] LOG:  starting PostgreSQL 12.17 on x86_64-conda-linux-gnu, compiled by x86_64-conda-linux-gnu-cc (Anaconda gcc) 11.2.0, 64-bit
+2024-11-10 13:07:00.302 +04 [234417] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2024-11-10 13:07:00.302 +04 [234417] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2024-11-10 13:07:00.302 +04 [234417] WARNING:  could not create listen socket for "localhost"
+2024-11-10 13:07:00.302 +04 [234417] FATAL:  could not create any TCP/IP sockets
+2024-11-10 13:07:00.302 +04 [234417] LOG:  database system is shut down
