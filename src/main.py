@@ -1,9 +1,11 @@
+import json
 import os
 import logging
 
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends
 from sqlalchemy.orm import Session
 from rdkit import Chem
+import redis
 
 from src import crud, models, schemas
 from src.database import engine, get_db
@@ -23,6 +25,34 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+# TODO:
+####### Connect to Redis
+redis_client = redis.Redis(host='redis', port=6379, db=0)
+
+def get_cached_result(key: str):
+    result = redis_client.get(key)
+    if result:
+        return json.loads(result)
+    return None
+
+def set_cache(key: str, value: dict, expiration: int = 60):
+    redis_client.setex(key, expiration, json.dumps(value))
+
+@app.get("/search/")
+async def search(query: str):
+    cache_key = f"search:{query}"
+    cached_result = get_cached_result(cache_key)
+
+    if cached_result:
+        return {"source": "cache", "data": cached_result}
+
+    # Simulate a search operation (e.g., querying a database)
+    search_result = {"query": query, "result": "Some data"}  # Replace with actual search logic
+
+    set_cache(cache_key, search_result)
+
+    return {"source": "database", "data": search_result}
+#######
 
 UPLOAD_DIR = "./uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)

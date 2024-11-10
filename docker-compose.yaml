@@ -28,6 +28,7 @@ services:
       - "8020:8010" # host machine port:container port
     depends_on:
       - postgres
+      - redis
 
   web2:
     build: .
@@ -39,6 +40,12 @@ services:
       - "8021:8010" # host machine port:container port
     depends_on:
       - postgres
+      - redis
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
 
   nginx:
     image: nginx:latest
@@ -49,7 +56,6 @@ services:
     depends_on:
       - web1
       - web2
-
 
 volumes:
   pg-data:

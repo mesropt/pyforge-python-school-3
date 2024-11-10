@@ -21,8 +21,10 @@ RUN echo "conda activate my-rdkit-env" >> ~/.bashrc
 # которые идут после этой строки в Dockerfile, внутри активированной my-rdkit-env с помощью conda (т.е. изменяем оболочку):
 SHELL ["conda", "run", "-n", "my-rdkit-env", "/bin/bash", "-c"]
 
-# Install FastAPI and Uvicorn into my-rdkit-env
-RUN conda install -c conda-forge fastapi uvicorn -y
+# Install FastAPI, Uvicorn and Redis into my-rdkit-env
+RUN conda install -c conda-forge redis-py fastapi uvicorn -y
+# redis-py is the Python client for Redis. Сам redis уже установлен в своём контейнере, то есть мне надо только
+# подключиться к нему из приложения, для чего и нужен redis-py.
 
 #(Optional) Install PostgreSQL client for connecting to the database from inside the container
 RUN apt-get update && apt-get install -y postgresql-client
