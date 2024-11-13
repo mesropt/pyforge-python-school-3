@@ -52,7 +52,6 @@ app = FastAPI()
 #     set_cache(cache_key, search_result)
 #
 #     return {"source": "database", "data": search_result}
-# #######
 
 UPLOAD_DIR = "./uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
