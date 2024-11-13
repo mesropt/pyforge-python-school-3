@@ -18,7 +18,7 @@ services:
   web1:
     build: .
     volumes:
-      - ./src:/src # раньше был .:/app
+      - .:/cont_prj_folder  # Монтируем весь каталог проекта в /cont_prj_folder
     # В старом варианте весь текущий каталог с хостовой машины (где расположен docker-compose.yaml) монтировался в контейнер в папку /app.
     # В новом варианте теперь на хостовой машине монтируется только папка src, которая находится в том же каталоге, где расположен docker-compose.yaml. В контейнере эта папка монтируется в директорию /src
     # Это означает, что теперь контейнер получает доступ только к содержимому папки src из моего проекта
@@ -28,24 +28,24 @@ services:
       - "8020:8010" # host machine port:container port
     depends_on:
       - postgres
-      - redis
+#      - redis
 
   web2:
     build: .
     volumes:
-      - ./src:/src
+      - .:/cont_prj_folder  # Монтируем весь каталог проекта в /cont_prj_folder
     environment:
       SERVER_ID: "SERVER-2"
     ports:
       - "8021:8010" # host machine port:container port
     depends_on:
       - postgres
-      - redis
+#      - redis
 
-  redis:
-    image: "redis:alpine"
-    ports:
-      - "6379:6379"
+#  redis:
+#    image: "redis:alpine"
+#    ports:
+#      - "6379:6379"
 
   nginx:
     image: nginx:latest
