@@ -127,6 +127,7 @@ dependencies:
       - annotated-types==0.7.0
       - anyio==4.4.0
       - click==8.1.7
+      - conda-pack==0.8.0
       - dnspython==2.6.1
       - email-validator==2.2.0
       - fastapi==0.114.0
@@ -149,6 +150,7 @@ dependencies:
       - pydantic-settings==2.5.2
       - pygments==2.18.0
       - pytest==8.3.3
+      - pytest-mock==3.14.0
       - python-dotenv==1.0.1
       - python-multipart==0.0.9
       - pyyaml==6.0.2

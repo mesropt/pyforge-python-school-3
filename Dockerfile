@@ -1,29 +1,32 @@
-# 1. Используем базовый образ с Miniconda
-FROM continuumio/miniconda3
+# 1. Используем базовый образ с Python 3.12
+FROM python:3.12
 
-# 2. Устанавливаем рабочую директорию в контейнере
+# 2. Устанавливаем зависимости для PostgreSQL клиента и RDKit
+RUN apt-get update && \
+    apt-get install -y \
+    libpq-dev \
+    build-essential \
+    cmake \
+    libboost-dev \
+    libboost-system-dev \
+    libboost-iostreams-dev \
+    libeigen3-dev \
+    wget && \
+    rm -rf /var/lib/apt/lists/*
+
+# 3. Создаем рабочую директорию
 WORKDIR /cont_prj_folder
 
-# 3. Копируем всё приложение в контейнер
+# 4. Копируем requirements.txt и устанавливаем зависимости через pip, включая RDKit
+COPY requirements.txt /cont_prj_folder/
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# 5. Копируем код приложения в контейнер
 COPY . /cont_prj_folder
 
-# 4. Копируем упакованное виртуальное окружение
-COPY my-rdkit-env.tar.gz /opt/conda/envs/
-
-# 5. Распаковываем окружение в нужную директорию
-RUN mkdir /opt/conda/envs/my-rdkit-env && tar -xzf /opt/conda/envs/my-rdkit-env.tar.gz -C /opt/conda/envs/my-rdkit-env
-
-# 6. Опционально делаем окружение перемещаемым
-RUN /opt/conda/envs/my-rdkit-env/bin/conda-unpack
-
-# 7. Автоматически активируем виртуальное окружение при запуске контейнера
-RUN echo "conda activate /opt/conda/envs/my-rdkit-env" >> ~/.bashrc
-
-# 8. Устанавливаем клиент PostgreSQL
-RUN apt-get update && apt-get install -y postgresql-client
-
-# 9. Открываем порт приложения
+# 6. Открываем порт для приложения
 EXPOSE 8010
 
-# 10. Запускаем FastAPI с Uvicorn, используя conda run и указав путь к окружению
-CMD ["conda", "run", "--no-capture-output", "-p", "/opt/conda/envs/my-rdkit-env", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8010", "--reload"]
+# 7. Запускаем сервер FastAPI с Uvicorn, доступный на порту 8010, с автоматической перезагрузкой
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8010", "--reload"]

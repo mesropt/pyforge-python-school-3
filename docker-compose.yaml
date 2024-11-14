@@ -9,11 +9,6 @@ services:
       - "5432:5432"
     volumes:
       - pg-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "chemuser"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   web1:
     build: .
@@ -28,7 +23,7 @@ services:
       - "8020:8010" # host machine port:container port
     depends_on:
       - postgres
-#      - redis
+      - redis
 
   web2:
     build: .
@@ -40,12 +35,12 @@ services:
       - "8021:8010" # host machine port:container port
     depends_on:
       - postgres
-#      - redis
+      - redis
 
-#  redis:
-#    image: "redis:alpine"
-#    ports:
-#      - "6379:6379"
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
 
   nginx:
     image: nginx:latest
