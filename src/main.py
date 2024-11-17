@@ -259,11 +259,15 @@ def upload_image(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=f'Error: {str(e)}')
 
 
-@app.get("/")
-def get_server():
-    server_id = os.getenv("SERVER_ID", "1")
-    logging.info(f'Accessed server with {server_id} ID.')
-    return {"server_id": server_id}
+# @app.get("/")
+# def get_server():
+#     server_id = os.getenv("SERVER_ID", "1")
+#     logging.info(f'Accessed server with {server_id} ID.')
+#     return {"server_id": server_id}
 
+
+@app.get("/")
+def read_main():
+    return {"msg": "Hello World"}
 
 # Start the server using: uvicorn src.main:app --reload --port 8015
