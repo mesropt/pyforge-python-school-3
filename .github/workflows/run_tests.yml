@@ -34,7 +34,7 @@ jobs:
 
       - name: Create and activate virtual environment
         run: |
-          python3 -m venv venv_for_rdkit
+          python -m venv venv_for_rdkit
           source venv_for_rdkit/bin/activate
           pip install --upgrade pip
 
@@ -42,14 +42,12 @@ jobs:
         run: |
           source venv_for_rdkit/bin/activate
           pip install -r requirements.txt
+
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
 
       - name: Set DATABASE_URL
         run: echo "DATABASE_URL=postgresql://chemuser:password@localhost:5432/chemdb" >> $GITHUB_ENV
-
-      - name: Install dependencies
-        run: conda run -n my-rdkit-env conda install -c conda-forge fastapi uvicorn flake8 psycopg2 -y
 
       - name: Run tests
         run: |
