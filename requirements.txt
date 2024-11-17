@@ -24,7 +24,6 @@ redis==5.2.0
 SecretStorage==3.3.1
 setuptools==75.5.0
 systemd-python==234
-typer==0.12.5
 ufw==0.36.1
 unattended-upgrades==0.1
 uvicorn==0.30.6
