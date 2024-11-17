@@ -19,7 +19,6 @@ PyJWT==2.3.0
 pytest-mock==3.14.0
 python-dotenv==1.0.1
 python-multipart==0.0.17
-PyYAML==5.4.1
 rdkit==2024.3.4
 redis==5.2.0
 SecretStorage==3.3.1
