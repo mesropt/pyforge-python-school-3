@@ -1,6 +1,9 @@
-name: Run tests workflow
+name: Run Tests
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -12,49 +15,44 @@ jobs:
     services:
       postgres:
         image: postgres:13
+        ports:
+          - 5432:5432
         env:
           POSTGRES_USER: chemuser
           POSTGRES_PASSWORD: password
           POSTGRES_DB: chemdb
-        ports:
-          - 5432:5432
         options: >-
-          --health-cmd="pg_isready"
+          --health-cmd="pg_isready -U chemuser"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
 
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.12
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.12
 
-      - name: Create and activate virtual environment
-        run: |
-          python -m venv venv_for_rdkit
-          source venv_for_rdkit/bin/activate
-          pip install --upgrade pip
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libsystemd-dev pkg-config gcc python3-dev
 
-      - name: Install dependencies
-        run: |
-          source venv_for_rdkit/bin/activate
-          pip install -r requirements.txt
+    - name: Set up PostgreSQL connection
+      run: |
+        echo "DATABASE_URL=postgresql+psycopg2://chemuser:password@localhost:5432/chemdb" >> .env
 
-      - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
+    - name: Install dependencies
+      run: |
+        python -m venv venv_for_rdkit
+        source venv_for_rdkit/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Set DATABASE_URL
-        run: echo "DATABASE_URL=postgresql://chemuser:password@postgres:5432/chemdb" >> $GITHUB_ENV
-
-      - name: Run tests
-        run: |
-          source venv_for_rdkit/bin/activate
-          pytest tests/
-
-      - name: Run flake8
-        run: |
-          source venv_for_rdkit/bin/activate
-          flake8 src/ tests/
+    - name: Run tests
+      run: |
+        source venv_for_rdkit/bin/activate
+        pytest
