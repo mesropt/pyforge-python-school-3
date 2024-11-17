@@ -199,3 +199,9 @@ pip install python-multipart
 2024-11-16 09:47:09,570 | root | INFO | Molecule Benzene with 7 added to cache.
 2024-11-16 09:47:45,492 | root | INFO | Molecule Toluene with 8 added to cache.
 2024-11-16 09:52:24,165 | root | INFO | Molecule Toluene with 8 added to cache.
+2024-11-17 13:35:48,871 | root | WARNING | No molecules found.
+2024-11-17 13:35:50,450 | root | WARNING | No molecules found.
+2024-11-17 15:54:35,150 | root | INFO | Adding molecule: test
+2024-11-17 15:54:35,168 | root | INFO | Molecule added successfully: test
+2024-11-17 15:54:36,991 | root | INFO | Adding molecule: test
+2024-11-17 15:54:36,993 | root | WARNING | Molecule already exists: test

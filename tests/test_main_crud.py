@@ -9,15 +9,16 @@ from src.main import app
 from src.database import Base, get_db
 from src.models import Molecule
 
-# Загрузка переменных окружения
-load_dotenv(".env.local")  # Используем локальный .env файл для тестов
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Путь к корню проекта. С ним формируем
+# load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env.local"))
 
 # Подключение к тестовой базе данных
-TEST_DATABASE_URL = os.getenv("DATABASE_URL")
+# TEST_DATABASE_URL = os.getenv("DATABASE_URL")
+TEST_DATABASE_URL="postgresql+psycopg2://chemuser:password@postgres:5432/chemdb"
+print(TEST_DATABASE_URL)
 
 engine = create_engine(TEST_DATABASE_URL)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 
 # Создаем фикстуру для базы данных
 @pytest.fixture(scope="function")

@@ -7,8 +7,8 @@ WORKDIR /cont_prj_folder
 # 3. Копируем requirements.txt и устанавливаем зависимости через pip, включая RDKit
 COPY requirements.txt /cont_prj_folder/
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    rm -rf /root/.cache/pip # явное удаление кеша пакетов после установки, чтобы уменьшить размер образа
+    pip install -r requirements.txt
+    # rm -rf /root/.cache/pip # явное удаление кеша пакетов после установки, чтобы уменьшить размер образа
 
 # 4. Копируем код приложения в контейнер
 COPY . /cont_prj_folder
