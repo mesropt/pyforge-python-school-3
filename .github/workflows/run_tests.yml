@@ -16,6 +16,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Create .env file to set up PostgreSQL connection
+      # Значения указаны в Settings > Secrets and variables > Repository secrets
+      run: |
+        echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
+        echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+        echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
+        echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+
     - name: Run tests
       run: |
         docker compose build 
