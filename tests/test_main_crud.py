@@ -146,3 +146,31 @@ def test_substructure_search(client, test_db):
     assert len(data) == 1
     assert data[0]["name"] == "Phenol"
     assert data[0]["smiles"] == "c1ccccc1O"
+
+def test_get_all_molecules(client, test_db):
+    # Очищаем таблицу перед тестом
+    test_db.query(Molecule).delete()
+    test_db.commit()
+
+    # Заполняем тестовую базу данных молекулами
+    test_molecules = [
+        Molecule(name="Water", smiles="O", weight=18.015, formula="H2O"),
+        Molecule(name="Ethanol", smiles="CCO", weight=46.07, formula="C2H6O"),
+    ]
+    test_db.add_all(test_molecules)
+    test_db.commit()
+
+    # Запрос к эндпоинту /molecules_list
+    response = client.get("/molecules_list?skip=0&limit=10")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert len(data) == 2  # Проверяем, что возвращены 2 молекулы
+
+    # Проверяем структуру данных
+    for molecule in data:
+        assert "id" in molecule
+        assert "name" in molecule
+        assert "smiles" in molecule
+        assert "weight" in molecule
+        assert "formula" in molecule

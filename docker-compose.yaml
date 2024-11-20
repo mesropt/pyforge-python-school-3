@@ -55,7 +55,7 @@ services:
 
   tests:
     build: . # на основе Dockerfile из текущего каталога (.)
-    command: pytest
+    command: pytest -v
     volumes:
       - .:/cont_prj_folder  # Монтируем весь каталог проекта, чтобы видеть все файлы проекта и использовать их
     env_file: ".env"
