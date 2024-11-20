@@ -3,10 +3,9 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
-import redis
 
 from src.main import app, redis_client, get_cached_result, set_cache
-from src.database import Base, get_db
+from src.database import get_db
 from src.models import Molecule
 
 

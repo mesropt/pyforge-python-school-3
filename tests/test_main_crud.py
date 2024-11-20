@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
 
 from src.main import app
-from src.database import Base, get_db
+from src.database import get_db
 from src.models import Molecule
 
 

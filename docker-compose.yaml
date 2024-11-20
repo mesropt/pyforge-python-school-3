@@ -7,6 +7,14 @@ services:
     volumes:
       - pg-data:/var/lib/postgresql/data
 
+#  test_postgres:
+#    image: postgres:13
+#    env_file: ".env"
+#    ports:
+#      - "5433:5432"
+#    volumes:
+#      - test-pg-data:/var/lib/postgresql/data
+
   web1:
     build: .
     volumes:
@@ -61,7 +69,9 @@ services:
     env_file: ".env"
     depends_on:
       - postgres
+#      - test_postgres
 
 volumes:
   pg-data:
+#  test-pg-data:
   redis-data:
