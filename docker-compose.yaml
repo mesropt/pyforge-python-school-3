@@ -17,7 +17,6 @@ services:
     ports:
       - "8020:8010" # host machine port:container port
     depends_on:
-      - web2
       - postgres
       - redis
       - celery_worker
