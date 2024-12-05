@@ -106,7 +106,7 @@ def test_add_molecule(fastapi_client, mock_postgres):
     assert data["molecule"]["smiles"] == molecule_data["smiles"]
     assert data["molecule"]["weight"] == molecule_data["weight"]
     assert data["molecule"]["formula"] == molecule_data["formula"]
-    assert data["message"] == "Molecule added successfully."
+    assert data["message"] == "Molecule added successfully. Edited."
 
 
 def test_get_molecule_by_id(fastapi_client, mock_postgres, sample_molecule):
