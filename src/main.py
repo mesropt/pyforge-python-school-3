@@ -58,7 +58,7 @@ def add_molecule(molecule: schemas.MoleculeCreate, db: Session = Depends(get_db)
     db_molecule = crud.add_molecule(db=db, molecule=molecule)
     logging.info(f'Molecule added successfully: {molecule.name}')
 
-    return {"molecule": db_molecule, "message": "Molecule added successfully."}
+    return {"molecule": db_molecule, "message": "Molecule added successfully. Edited."}
 
 
 @app.get("/molecule/{molecule_id}", response_model=schemas.Molecule)
