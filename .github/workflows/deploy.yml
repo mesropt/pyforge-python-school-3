@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # Триггер при пуше в основную ветку
+      - main
 
 jobs:
   deploy:
@@ -20,15 +20,26 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -o ExitOnFailure=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          # Обновляем репозиторий
+        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           cd /home/ubuntu/pyforge-python-school-3
           git pull origin main
           
-          # Перестраиваем контейнеры
           docker compose down
           docker compose up --build -d
           
-          # Проверяем логи
-          docker compose logs -f
+          docker compose logs > deployment_logs.txt
         EOF
+
+    - name: Send Email Notification
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USER }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "Deployment Successful"
+        body: |
+          The deployment to EC2 was successful. 
+          Latest code has been pulled, and containers have been restarted.
+        to: mesroptnamak@gmail.com
+        from: ${{ secrets.EMAIL_USER }}
