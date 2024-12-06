@@ -75,7 +75,7 @@ def test_get_all_molecules(fastapi_client, mock_postgres, sample_molecules):
     # Mock database query to return a list of molecules
     mock_postgres.query.return_value.offset.return_value.limit.return_value.all.return_value = sample_molecules
 
-    response = fastapi_client.get(f"/molecules_list?skip=0&limit=100")
+    response = fastapi_client.get("/molecules_list?skip=0&limit=100")
     assert response.status_code == 200
 
     data = response.json()

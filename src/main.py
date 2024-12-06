@@ -1,7 +1,6 @@
 import json
 import os
 import logging
-import time
 
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends
 from sqlalchemy.orm import Session
@@ -32,6 +31,9 @@ app = FastAPI()
 
 # Redis Start
 redis_client = redis.Redis(host='redis', port=6379, db=0)
+
+
+
 
 def get_cached_result(key: str):
     result = redis_client.get(key)

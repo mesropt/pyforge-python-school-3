@@ -72,6 +72,15 @@ services:
       - .:/fastapi_app
     env_file: ".env"
 
+  ruff:
+    build: .
+    command: ruff check --no-cache /fastapi_app/src /fastapi_app/tests
+    working_dir: /fastapi_app
+    volumes:
+      - .:/fastapi_app
+    stdin_open: true
+    tty: true
+
 volumes:
   pg-data:
   redis-data:

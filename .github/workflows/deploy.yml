@@ -1,3 +1,4 @@
+# CD (Continuous Deployment)
 name: Deploy to EC2
 
 on:

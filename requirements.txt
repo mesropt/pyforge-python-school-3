@@ -2,8 +2,10 @@ alembic==1.13.3
 celery[redis]==5.4.0
 fastapi[standard]==0.115.5
 psycopg2==2.9.9
+pre-commit==4.0.1
 pytest==8.3.3
 pytest-mock==3.14.0
 rdkit==2024.3.4
 redis==5.2.0
+ruff==0.8.2
 uvicorn==0.30.6
