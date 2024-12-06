@@ -63,6 +63,7 @@ services:
       - postgres
       - redis
 
+
   celery_worker:
     build: .
     command: celery -A src.celery_worker worker --loglevel=info
