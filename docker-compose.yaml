@@ -63,6 +63,21 @@ services:
       - postgres
       - redis
 
+staging:
+  build: .  # Используем тот же Dockerfile
+  volumes:
+    - .:/fastapi_app
+  environment:
+    ENV: "staging"  # Переменная окружения
+    SERVER_ID: "STAGING_SERVER"
+  env_file: ".env.staging"  # Отдельный файл для staging
+  ports:
+    - "8030:8010"  # Отдельный порт для staging
+  depends_on:
+    - postgres
+    - redis
+
+
   celery_worker:
     build: .
     command: celery -A src.celery_worker worker --loglevel=info
