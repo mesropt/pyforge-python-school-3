@@ -1,3 +1,4 @@
+# CI (Continuous Integration)
 name: Run Tests
 
 on:
@@ -21,6 +22,10 @@ jobs:
         echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
         echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
         echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+
+    - name: Run Ruff linter
+      run: |
+        docker compose run ruff
 
     - name: Run tests
       run: |
